@@ -6,7 +6,7 @@ Use the appendChild() of the Node interface to add the PixelEditor object
 
 ## Example:
 
-'''html
+```html
 <html>
   <body>
 
@@ -20,4 +20,4 @@ Use the appendChild() of the Node interface to add the PixelEditor object
 
   </body>
 </html>
-'''
+```
