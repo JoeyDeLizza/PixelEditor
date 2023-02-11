@@ -330,6 +330,17 @@ class UndoButton {
     }
 }
 
+class ClearButton {
+    constructor(state, {dispatch}) {
+	this.dom = elt("button", {
+	    onclick: () => dispatch({picture: Picture.empty(25,25, "#F0F0F0")})
+	}, "Clear");
+		       
+    }
+    syncState() {};
+}
+
+
 const startState = {
     tool: "draw",
     color: "#000000",
@@ -341,7 +352,7 @@ const startState = {
 const baseTools = {draw, fill, rectangle, pick};
 
 const baseControls = [
-    ToolSeelect, ColorSelect, SaveButton, LoadButton, UndoButton
+    ToolSeelect, ColorSelect, SaveButton, LoadButton, UndoButton, ClearButton
 ];
 
 function startPixelEditor({state = startState,
