@@ -42,7 +42,7 @@ function elt(type, props, ...children) {
     return dom;
 }
 
-const scale = 3;
+const scale = 20;
 
 class PictureCanvas {
     constructor(picture, pointerDown) {
@@ -344,7 +344,7 @@ class ClearButton {
 const startState = {
     tool: "draw",
     color: "#000000",
-    picture: Picture.empty(250, 250, "#F0F0F0"),
+    picture: Picture.empty(25, 25, "#F0F0F0"),
     done: [],
     doneAt: 0
 };
