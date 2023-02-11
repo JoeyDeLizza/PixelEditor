@@ -1,5 +1,6 @@
 # PixelEditor
 Simple Drawing tool for creating pixel art
+Checkout [Doodle-Doo](https://joeydelizza.github.io/DoodleDoo) to see it in action
 
 ## To Use:
 Use the appendChild() of the Node interface to add the PixelEditor object
