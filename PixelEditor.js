@@ -16,10 +16,8 @@ class Picture {
 
     draw(pixels) {
 	let copy = this.pixels.slice();
-	console.log("In Picture.draw()");
 	for (let {x, y, color} of pixels) {
 	    copy[x + y * this.width] = color;
-	    console.log("Drawing")
 	}
 	return new Picture(this.width, this.height, copy);
     }
@@ -31,7 +29,6 @@ function updateState(state, action) {
 
 function elt(type, props, ...children) {
     let dom = document.createElement(type);
-    console.log('In function');
     if (props) Object.assign(dom, props);
     for (let child of children) {
 	if (typeof child != "string")
@@ -48,7 +45,7 @@ class PictureCanvas {
     constructor(picture, pointerDown) {
 	this.dom = elt("canvas", {
 	    onmousedown: event => this.mouse(event, pointerDown),
-	    ontouchstart: event => this.mouse(event, pointerDown)
+	    ontouchstart: event => this.touch(event, pointerDown)
 	});
 	this.syncState(picture);
     }
@@ -63,13 +60,11 @@ function drawPicture(picture, canvas, scale) {
     canvas.width = picture.width * scale;
     canvas.height = picture.height * scale;
     let cx = canvas.getContext("2d");
-    console.log("In drawPicture")
 
     for (let y = 0; y < picture.height; y++) {
 	for (let x = 0; x < picture.width; x++) {
 	    cx.fillStyle = picture.pixel(x,y);
 	    cx.fillRect(x * scale, y * scale, scale, scale)
-	    console.log("pp")
 	}
     }
 }
@@ -85,7 +80,6 @@ PictureCanvas.prototype.mouse = function(downEvent, onDown) {
 	    this.dom.removeEventListener("mousemove", move);
 	} else {
 	    let newPos = pointerPosition(moveEvent, this.dom);
-	    console.log("mouse: "+ newPos);
 	    if (newPos.x == pos.x && newPos.y == pos.y) return;
 	    pos = newPos;
 	    
@@ -97,18 +91,19 @@ PictureCanvas.prototype.mouse = function(downEvent, onDown) {
 
 function pointerPosition(pos, domNode) {
     let rect = domNode.getBoundingClientRect();
-    console.log("in pointerPosition")
     return {x: Math.floor((pos.clientX - rect.left) / scale),
 	    y: Math.floor((pos.clientY - rect.top) / scale)};
 }
 
 PictureCanvas.prototype.touch = function(startEvent, onDown) {
     let pos = pointerPosition(startEvent.touches[0], this.dom);
+    console.log(pos);
     let onMove = onDown(pos);
     startEvent.preventDefault();
     if (!onMove) return;
     let move = moveEvent => {
 	let newPos = pointerPosition(moveEvent.touches[0], this.dom);
+	
 	if (newPos.x == pos.x && newPos.y == pos.y) return;
 	pos = newPos;
 	onMove(newPos);
@@ -172,11 +167,7 @@ function draw(pos, state, dispatch) {
     function drawPixel({x, y}, state) {
 	let drawn = {x, y, color: state.color};
 	dispatch({picture: state.picture.draw([drawn])});
-	console.log("in drawPixel");
-	console.log(x);
-	console.log(y);
     }
-    console.log("In draw func");
     drawPixel(pos, state);
     
     console.log(pos);
@@ -201,7 +192,6 @@ function rectangle(start, state, dispatch) {
 	dispatch({picture: state.picture.draw(drawn)});
     }
     drawRectangle(state);
-    console.log("In Rectangle");
     return drawRectangle;
 }
 
@@ -363,7 +353,6 @@ function startPixelEditor({state = startState,
 	dispatch(action) {
 	    state = historyUpdateState(state, action);
 	    app.syncState(state);
-	    console.log("In dispatch")
 	}
     });
     return app.dom;
