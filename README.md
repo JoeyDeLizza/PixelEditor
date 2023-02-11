@@ -1,7 +1,7 @@
 # PixelEditor
 Simple Drawing tool for creating pixel art
 
-![](Example/Doodle.gif)
+![](Example/DoodleEx.gif)
 Checkout [Doodle-Doo](https://joeydelizza.github.io/DoodleDoo) to see it in action
 
 ## To Use:
